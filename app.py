@@ -17,6 +17,12 @@ config = app.node.try_get_context('config')
 stack_id = config["stack-id"]
 
 
+# https://github.com/aws/aws-cdk/issues/13620
+# https://docs.aws.amazon.com/cdk/v2/guide/cfn_layer.html
+bucket_notifications_handler = app.node.tryFindChild('BucketNotificationsHandler050a0587b7544547bf325f094a3db8347ECC3691')
+bucket_notifications_handler.add_property_override("Runtime", "nodejs14.x")
+
+
 def fargate(config, stack_id):
     image_name = config["image-name"]
     ecr_repository_name = config["ecr-repository-name"]

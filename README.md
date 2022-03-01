@@ -23,11 +23,19 @@ python3 -m venv .env
 bash deploy.sh synth true
 ```
 
+5. Manual Update Nodejs runtime
+
+Locate folder in cdk.out -> scene-detection.template.json
+"Runtime": "nodejs14.x",
+
+
 6. CDK Deploy
 
 ```
 bash deploy.sh deploy true
 ```
+
+
 
 
 
