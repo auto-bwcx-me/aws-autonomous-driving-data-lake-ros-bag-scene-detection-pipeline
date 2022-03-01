@@ -4,7 +4,7 @@
     "@aws-cdk/core:enableStackNameDuplicates": "false",
     "aws-cdk:enableDiffNoFail": "true",
     "config": {
-      "region": "eu-west-1",
+      "region": "us-east-1",
       "account_id": "",
       "stack-id": "scene-detection",
       "fargate": {

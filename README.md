@@ -1,3 +1,35 @@
+# Steps
+
+1. Check CDK
+```
+npm install -g aws-cdk --force
+
+cdk --version
+```
+
+2. Set region
+```
+aws configure set region us-east-1
+```
+
+3. Prepare ENV
+
+```
+python3 -m venv .env
+```
+
+4. CDK synth
+```
+bash deploy.sh synth true
+```
+
+6. CDK Deploy
+
+```
+bash deploy.sh deploy true
+```
+
+
 
 # Getting Started
 
