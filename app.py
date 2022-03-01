@@ -22,7 +22,7 @@ stack_id = config["stack-id"]
 print('----------Debug------')
 print(app.node)
 
-bucket_notifications_handler = app.node.defaultChild.tryFindChild('BucketNotificationsHandler050a0587b7544547bf325f094a3db8347ECC3691')
+bucket_notifications_handler = app.node.try_find_child('BucketNotificationsHandler050a0587b7544547bf325f094a3db8347ECC3691')
 bucket_notifications_handler.add_property_override("Runtime", "nodejs14.x")
 
 
