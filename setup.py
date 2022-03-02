@@ -15,7 +15,9 @@ setuptools.setup(
     package_dir={"": "infrastructure"},
     packages=setuptools.find_packages(where="infrastructure"),
     install_requires=[
-        "aws-cdk.core==1.83.0",
+        # "aws-cdk.core==1.83.0",
+        "aws-cdk.core==1.139.0",
+
     ],
     python_requires=">=3.6",
     classifiers=[
