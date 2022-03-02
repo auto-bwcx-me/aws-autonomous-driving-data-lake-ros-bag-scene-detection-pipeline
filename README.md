@@ -53,6 +53,11 @@ python3 -m venv .env
 pip3 install -r requirements.txt
 ```
 
+如果是第一次运行CDK，先执行
+```
+cdk bootstrap
+```
+
 3. Check CDK
 ```
 npm install -g aws-cdk --force

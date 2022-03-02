@@ -14,5 +14,6 @@ aws_cdk.aws_logs==1.139.0
 aws_cdk.aws_lambda_event_sources==1.139.0
 aws_cdk.aws_lambda==1.139.0
 aws_cdk.aws_glue==1.139.0
+aws_cdk.cloud_assembly_schema==1.139.0
 boto3
 aws_emr_launch==1.5.0
