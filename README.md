@@ -39,17 +39,23 @@ sudo xfs_growfs -d /
 
 # EC2
 
-1. Swith to root
+1. Lauch EC2 Server
+- 注意要绑定角色
+
+2. SSH 到机器
+
+
+3. Swith to root
 ```
 sudo su
 ```
 
-2. Install git
+4. Install git
 ```
 yum install git -y
 ```
 
-3. Install nodejs
+5. Install nodejs
 ```
 curl -sL https://rpm.nodesource.com/setup_16.x | sudo bash -
 
