@@ -1,5 +1,5 @@
 
-# Prepare
+# Cloud9 
 
 1. Cloud9 权限 
 - 绑定角色
@@ -37,6 +37,26 @@ sudo xfs_growfs -d /
 ```
 
 
+# EC2
+
+1. Swith to root
+```
+sudo su
+```
+
+2. Install git
+```
+yum install git -y
+```
+
+3. Install nodejs
+```
+curl -sL https://rpm.nodesource.com/setup_16.x | sudo bash -
+
+yum install -y nodejs
+```
+
+
 # Steps
 1. Clone code
 ```
@@ -53,17 +73,17 @@ python3 -m venv .env
 pip3 install -r requirements.txt
 ```
 
-如果是第一次运行CDK，先执行
-参考文档 https://docs.aws.amazon.com/cdk/v2/guide/bootstrapping.html
-```
-cdk bootstrap
-```
-
-3. Check CDK
+3. Install CDK
 ```
 npm install -g aws-cdk --force
 
 cdk --version
+```
+
+如果是第一次运行CDK，先执行
+参考文档 https://docs.aws.amazon.com/cdk/v2/guide/bootstrapping.html
+```
+cdk bootstrap
 ```
 
 4. CDK synth
