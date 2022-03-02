@@ -54,6 +54,7 @@ pip3 install -r requirements.txt
 ```
 
 如果是第一次运行CDK，先执行
+参考文档 https://docs.aws.amazon.com/cdk/v2/guide/bootstrapping.html
 ```
 cdk bootstrap
 ```
