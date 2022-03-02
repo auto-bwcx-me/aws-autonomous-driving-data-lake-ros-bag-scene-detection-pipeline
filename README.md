@@ -1,10 +1,11 @@
-# Steps
 
-1. Check CDK
+# Prepare
+
+1. Cloud9 权限 
+- 绑定角色
+- 清理临时
 ```
-npm install -g aws-cdk --force
-
-cdk --version
+rm -vf ${HOME}/.aws/credentials
 ```
 
 2. Set region
@@ -12,10 +13,51 @@ cdk --version
 aws configure set region us-east-1
 ```
 
-3. Prepare ENV
+3. 调大磁盘空间
+```
+wget http://container.bwcx.me/0-prepare/002-mgmt.files/resize-ebs.sh
+
+chmod +x resize-ebs.sh
+
+./resize-ebs.sh 2000
+```
+
+查看磁盘信息
+```
+df -hT
+
+lsblk
+```
+
+使扩容生效
+```
+sudo growpart /dev/nvme0n1 1
+
+sudo xfs_growfs -d /
+```
+
+
+# Steps
+1. Clone code
+```
+git clone https://github.com/BWCXME/aws-autonomous-driving-data-lake-ros-bag-scene-detection-pipeline.git
+
+cd aws-autonomous-driving-data-lake-ros-bag-scene-detection-pipeline
+```
+
+2. Prepare ENV
 
 ```
 python3 -m venv .env
+
+pip3 install -r requirements.txt
+```
+
+3. Check CDK
+```
+npm install -g aws-cdk --force
+
+cdk --version
 ```
 
 4. CDK synth
