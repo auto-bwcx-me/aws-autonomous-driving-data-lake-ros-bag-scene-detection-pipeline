@@ -132,7 +132,8 @@ def parse_arguments(args):
 
 
 def get_batch_file_metadata(table_name, batch_id):
-    dynamodb = boto3.resource('dynamodb', region_name='eu-west-1')
+    # dynamodb = boto3.resource('dynamodb', region_name='eu-west-1')
+    dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
     table = dynamodb.Table(table_name)
     response = table.query(
         KeyConditions={
@@ -166,7 +167,7 @@ def write_results_s3(df, table_name, output_bucket, partition_cols=[]):
 
 def write_results_dynamo(df, output_dynamo_table):
     df.write.mode("append").option("tableName", output_dynamo_table) \
-        .option("region", "eu-west-1") \
+        .option("region", "us-east-1") \
         .format("dynamodb") \
         .save()
 
