@@ -44,7 +44,7 @@
         "CORE_INSTANCE_COUNT": 3,
         "CORE_INSTANCE_MARKET": "ON_DEMAND",
         "TASK_INSTANCE_TYPE": "r5.12xlarge",
-        "TASK_INSTANCE_COUNT": 1,
+        "TASK_INSTANCE_COUNT": 3,
         "TASK_INSTANCE_MARKET": "SPOT",
         "RELEASE_LABEL": "emr-6.2.0",
         "APPLICATIONS": [
