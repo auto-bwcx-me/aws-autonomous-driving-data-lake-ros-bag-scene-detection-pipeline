@@ -27,7 +27,7 @@ def parse_arguments(args):
 
 
 def get_batch_file_metadata(table_name, batch_id):
-    dynamodb = boto3.resource("dynamodb", region_name="eu-west-1")
+    dynamodb = boto3.resource("dynamodb", region_name="us-east-1")
     table = dynamodb.Table(table_name)
     response = table.query(
         KeyConditions={
