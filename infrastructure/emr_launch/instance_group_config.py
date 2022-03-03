@@ -23,20 +23,20 @@ class TaskInstanceGroupConfiguration(InstanceGroupConfiguration):
         subnet: ec2.Subnet,
         namespace: str = "default",
         release_label: Optional[str] = "emr-5.29.0",
-        master_instance_type: Optional[str] = "m5.2xlarge",
+        master_instance_type: Optional[str] = "m5.12xlarge",
         master_instance_market: Optional[
             InstanceMarketType
         ] = InstanceMarketType.ON_DEMAND,
-        core_instance_type: Optional[str] = "m5.xlarge",
+        core_instance_type: Optional[str] = "m5.12xlarge",
         core_instance_market: Optional[
             InstanceMarketType
         ] = InstanceMarketType.ON_DEMAND,
         core_instance_count: Optional[int] = 2,
-        task_instance_type: Optional[str] = "m5.xlarge",
+        task_instance_type: Optional[str] = "r5.12xlarge",
         task_instance_market: Optional[
             InstanceMarketType
         ] = InstanceMarketType.ON_DEMAND,
-        task_instance_count: Optional[int] = 2,
+        task_instance_count: Optional[int] = 3,
         applications: Optional[List[str]] = None,
         bootstrap_actions: Optional[List[emr_code.EMRBootstrapAction]] = None,
         configurations: Optional[List[dict]] = None,
