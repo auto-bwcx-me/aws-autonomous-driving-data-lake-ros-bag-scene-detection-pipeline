@@ -1,5 +1,15 @@
 
-# Cloud9 
+# 博客
+
+英文： https://aws.amazon.com/cn/blogs/architecture/field-notes-building-an-automated-scene-detection-pipeline-for-autonomous-driving/
+中文： 准备中。
+
+
+
+# 1.环境配置
+----------
+
+## 1.1 Cloud9配置
 
 1. Cloud9 权限 
 - 绑定角色
@@ -37,7 +47,7 @@ sudo xfs_growfs -d /
 ```
 
 
-# EC2
+## 1.2 EC2配置【可选，如果没有使用Cloud9的话】
 
 1. Lauch EC2 Server
 - 注意要绑定角色
@@ -63,15 +73,19 @@ yum install -y nodejs
 ```
 
 
-# Steps
-1. Clone code
+
+
+# 2.部署步骤
+----------
+
+## 2.1 Clone code
 ```
-git clone https://github.com/BWCXME/aws-autonomous-driving-data-lake-ros-bag-scene-detection-pipeline.git
+git clone https://github.com/auto-bwcx-me/aws-autonomous-driving-data-lake-ros-bag-scene-detection-pipeline.git
 
 cd aws-autonomous-driving-data-lake-ros-bag-scene-detection-pipeline
 ```
 
-2. Prepare ENV
+## 2.2 Prepare ENV
 
 ```
 python3 -m venv .env
@@ -79,7 +93,7 @@ python3 -m venv .env
 pip3 install -r requirements.txt
 ```
 
-3. Install CDK
+## 2.3 Install CDK
 ```
 npm install -g aws-cdk --force
 
@@ -89,16 +103,18 @@ cdk --version
 如果是第一次运行CDK，先执行
 参考文档 https://docs.aws.amazon.com/cdk/v2/guide/bootstrapping.html
 ```
+# cdk bootstrap aws://123456789012/us-east-1
+
 cdk bootstrap
 ```
 
-4. CDK synth
+## 2.4 CDK synth
 ```
 bash deploy.sh synth true
 ```
 
 
-5. CDK Deploy
+## 2.5 CDK Deploy
 ```
 bash deploy.sh deploy true
 ```
@@ -107,7 +123,7 @@ bash deploy.sh deploy true
 
 
 
-# Getting Started
+# 3.Getting Started
 
 Initial Configuration
     Define 3 names for your infrastructure in config.json:

@@ -22,17 +22,17 @@ class TaskInstanceGroupConfiguration(InstanceGroupConfiguration):
         configuration_name: str,
         subnet: ec2.Subnet,
         namespace: str = "default",
-        release_label: Optional[str] = "emr-5.29.0",
-        master_instance_type: Optional[str] = "m5.12xlarge",
+        release_label: Optional[str] = "emr-6.4.0",
+        master_instance_type: Optional[str] = "m5.8xlarge",
         master_instance_market: Optional[
             InstanceMarketType
         ] = InstanceMarketType.ON_DEMAND,
-        core_instance_type: Optional[str] = "m5.12xlarge",
+        core_instance_type: Optional[str] = "r5.8xlarge",
         core_instance_market: Optional[
             InstanceMarketType
         ] = InstanceMarketType.ON_DEMAND,
         core_instance_count: Optional[int] = 2,
-        task_instance_type: Optional[str] = "r5.12xlarge",
+        task_instance_type: Optional[str] = "r5.8xlarge",
         task_instance_market: Optional[
             InstanceMarketType
         ] = InstanceMarketType.ON_DEMAND,
@@ -43,10 +43,10 @@ class TaskInstanceGroupConfiguration(InstanceGroupConfiguration):
         step_concurrency_level: Optional[int] = 1,
         description: Optional[str] = None,
         secret_configurations: Optional[Dict[str, secretsmanager.Secret]] = None,
-        core_instance_ebs_size: Optional[int] = 0,
+        core_instance_ebs_size: Optional[int] = 500,
         core_instance_ebs_type: Optional[str] = "io1",
         core_instance_ebs_iops: Optional[int] = 0,
-        task_instance_ebs_size: Optional[int] = 32,
+        task_instance_ebs_size: Optional[int] = 200,
     ):
 
         super().__init__(
