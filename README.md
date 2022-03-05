@@ -136,9 +136,17 @@ bash deploy.sh deploy true
 
 
 
+# 3.注意事项
+----------
+
+因为权限配置的原因，在开始真实的测试之前，必须手工在EMR控制台启动一个集群，启动后直接关闭即可。
 
 
-# 3.Getting Started
+
+
+
+
+# 4.Getting Started
 
 Initial Configuration
     Define 3 names for your infrastructure in config.json:
