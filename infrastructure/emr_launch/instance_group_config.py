@@ -45,7 +45,7 @@ class TaskInstanceGroupConfiguration(InstanceGroupConfiguration):
         secret_configurations: Optional[Dict[str, secretsmanager.Secret]] = None,
         core_instance_ebs_size: Optional[int] = 500,
         core_instance_ebs_type: Optional[str] = "io1",
-        core_instance_ebs_iops: Optional[int] = 0,
+        core_instance_ebs_iops: Optional[int] = 3000,
         task_instance_ebs_size: Optional[int] = 200,
     ):
 
@@ -149,7 +149,7 @@ class TaskInstanceGroupConfiguration(InstanceGroupConfiguration):
                                 "VolumeSpecification": {
                                     "SizeInGB": task_instance_ebs_size,
                                     "VolumeType": "io1",
-                                    "Iops": task_instance_ebs_size * 50,
+                                    "Iops": 3000,
                                 },
                                 "VolumesPerInstance": 1,
                             }
