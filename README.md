@@ -1,7 +1,7 @@
 
 # 博客
 
-英文： https://aws.amazon.com/cn/blogs/architecture/field-notes-building-an-automated-scene-detection-pipeline-for-autonomous-driving/
+英文： https://aws.amazon.com/cn/blogs/architecture/field-notes-building-an-automated-scene-detection-pipeline-for-autonomous-driving/  
 中文： 准备中。
 
 
@@ -20,7 +20,7 @@ rm -vf ${HOME}/.aws/credentials
 
 2. Set region
 ```
-aws configure set region us-east-1
+aws configure set region $(curl -s http://169.254.169.254/latest/meta-data/placement/region)
 ```
 
 3. 调大磁盘空间
@@ -85,7 +85,22 @@ git clone https://github.com/auto-bwcx-me/aws-autonomous-driving-data-lake-ros-b
 cd aws-autonomous-driving-data-lake-ros-bag-scene-detection-pipeline
 ```
 
-## 2.2 Prepare ENV
+
+## 2.2 设置区域
+----------
+
+在开始之前，需要设定 Region，如果没有设定的话，默认使用新加坡区域 （ap-southeast-1）
+
+~~~shell
+# default setting singapore region (ap-southeast-1)
+sh 00-define-region.sh
+
+# sh 00-define-region.sh us-east-1
+~~~
+
+
+
+## 2.3 Prepare ENV
 
 ```
 python3 -m venv .env
@@ -93,7 +108,7 @@ python3 -m venv .env
 pip3 install -r requirements.txt
 ```
 
-## 2.3 Install CDK
+## 2.4 Install CDK
 ```
 npm install -g aws-cdk --force
 
@@ -108,13 +123,13 @@ cdk --version
 cdk bootstrap
 ```
 
-## 2.4 CDK synth
+## 2.5 CDK synth
 ```
 bash deploy.sh synth true
 ```
 
 
-## 2.5 CDK Deploy
+## 2.6 CDK Deploy
 ```
 bash deploy.sh deploy true
 ```

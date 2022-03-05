@@ -4,7 +4,7 @@
     "@aws-cdk/core:enableStackNameDuplicates": "false",
     "aws-cdk:enableDiffNoFail": "true",
     "config": {
-      "region": "us-east-1",
+      "region": "ap-southeast-1",
       "account_id": "",
       "stack-id": "scene-detection",
       "fargate": {
@@ -39,14 +39,14 @@
       },
       "emr": {
         "CLUSTER_NAME": "scene-detection-emr",
-        "MASTER_INSTANCE_TYPE": "m5.12xlarge",
-        "CORE_INSTANCE_TYPE": "m5.12xlarge",
+        "MASTER_INSTANCE_TYPE": "m5.8xlarge",
+        "CORE_INSTANCE_TYPE": "r5.8xlarge",
         "CORE_INSTANCE_COUNT": 3,
         "CORE_INSTANCE_MARKET": "ON_DEMAND",
-        "TASK_INSTANCE_TYPE": "r5.12xlarge",
+        "TASK_INSTANCE_TYPE": "r5.8xlarge",
         "TASK_INSTANCE_COUNT": 3,
         "TASK_INSTANCE_MARKET": "SPOT",
-        "RELEASE_LABEL": "emr-6.2.0",
+        "RELEASE_LABEL": "emr-6.4.0",
         "APPLICATIONS": [
           "Hadoop",
           "Spark"

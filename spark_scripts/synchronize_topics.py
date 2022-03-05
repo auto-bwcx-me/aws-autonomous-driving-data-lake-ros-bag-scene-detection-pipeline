@@ -5,6 +5,7 @@ import sys
 import functools
 import pyspark.sql.functions as func
 
+run_region="ap-southeast-1"
 
 def union_all(dfs):
     column_superset = set()
@@ -27,7 +28,7 @@ def parse_arguments(args):
 
 
 def get_batch_file_metadata(table_name, batch_id):
-    dynamodb = boto3.resource("dynamodb", region_name="us-east-1")
+    dynamodb = boto3.resource("dynamodb", region_name=run_region)
     table = dynamodb.Table(table_name)
     response = table.query(
         KeyConditions={
