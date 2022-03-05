@@ -156,7 +156,6 @@ def should_lambda_trigger_pipeline(latest_batch, latest_bag_file):
     """
     # FIXME: Trigger EMR if the latest bag_file has all of the topics in DynamoDB AND X+ number of bagfiles to process
     num_topics = int(os.environ["NUM_TOPICS"])
-    # min_num_bags_to_process = 2
     min_num_bags_to_process = 1
 
     all_topics_in_dynamo = len(list(set(latest_bag_file["topics"]))) == num_topics
