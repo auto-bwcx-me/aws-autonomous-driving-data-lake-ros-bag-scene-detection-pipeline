@@ -12,8 +12,8 @@
 ## 1.1 Cloud9配置
 
 1. Cloud9 权限 
-- 绑定角色
-- 清理临时
+- 绑定角色（这个必须操作，cdk不能使用aksk的方式）  
+- 清理临时（如果没有清除，cdk将会执行失败）  
 ```
 rm -vf ${HOME}/.aws/credentials
 ```
