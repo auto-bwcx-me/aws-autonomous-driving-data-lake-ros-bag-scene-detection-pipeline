@@ -24,15 +24,6 @@ aws configure set region $(curl -s http://169.254.169.254/latest/meta-data/place
 ```
 
 
-3.设置Cloud9磁盘空间
-```
-# sh resize-ebs.sh 1000
-
-sh resize-ebs-nvme.sh 1000
-```
-
-
-
 # 2.部署步骤
 ----------
 
@@ -42,6 +33,16 @@ git clone https://github.com/auto-bwcx-me/aws-autonomous-driving-data-lake-ros-b
 
 cd aws-autonomous-driving-data-lake-ros-bag-scene-detection-pipeline
 ```
+
+
+设置Cloud9磁盘空间
+```
+# sh resize-ebs.sh 1000
+
+sh resize-ebs-nvme.sh 1000
+```
+
+
 
 
 ## 2.2 设置区域
