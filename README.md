@@ -8,20 +8,21 @@
 
 # 1.环境配置
 ----------
-1.Cloud9 权限 
-- 绑定角色（这个必须操作，cdk不能使用aksk的方式）  
-- 清理临时（如果没有清除，cdk将会执行失败）  
+1.设置Cloud9权限 
+- 绑定 Instance Profile角色（这个必须操作，cdk不能使用aksk的方式）  
+- 清理临时 Token（如果没有清除，cdk将会执行失败，因为STS和AKSK优先于Role执行）  
 ```
 rm -vf ${HOME}/.aws/credentials
 ```
 
-2.Set region
+
+2.设置Cloud9区域
 ```
 aws configure set region $(curl -s http://169.254.169.254/latest/meta-data/placement/region)
 ```
 
 
-3.调大磁盘空间
+3.设置Cloud9磁盘空间
 ```
 # sh resize-ebs.sh 1000
 
@@ -33,7 +34,7 @@ sh resize-ebs-nvme.sh 1000
 # 2.部署步骤
 ----------
 
-## 2.1 Clone code
+## 2.1 准备代码
 ```
 git clone https://github.com/auto-bwcx-me/aws-autonomous-driving-data-lake-ros-bag-scene-detection-pipeline.git
 
@@ -55,7 +56,7 @@ sh 00-define-region.sh
 
 
 
-## 2.3 Prepare ENV
+## 2.3 准备环境
 
 ```
 pip install --upgrade pip
@@ -65,12 +66,14 @@ python3 -m venv .env
 pip3 install -r requirements.txt
 ```
 
-## 2.4 Install CDK
+
+## 2.4 安装CDK
 ```
 npm install -g aws-cdk --force
 
 cdk --version
 ```
+
 
 如果是第一次运行CDK，先执行参考文档 https://docs.aws.amazon.com/cdk/v2/guide/bootstrapping.html
 ```
@@ -81,16 +84,18 @@ cdk bootstrap
 ```
 
 
-## 2.5 CDK synth
+## 2.5 CDK环境合成
 ```
 bash deploy.sh synth true
 ```
 
 
-## 2.6 CDK Deploy
+
+## 2.6 CDK部署
 ```
 bash deploy.sh deploy true
 ```
+
 
 
 
@@ -109,11 +114,9 @@ aws emr create-cluster \
 
 
 
-
-# 4.复制数据
+# 4.准备数据
 ----------
-
-请确保 CDK 全部部署成功（大概需要15-20分钟），然后再在 Cloud9 上执行这些操作。
+请确保 CDK 全部部署成功（大概需要5-10分钟），然后再在 Cloud9 上执行这些操作。
 ```
 # get s3 bucket name
 s3url="https://auto-bwcx-me.s3.ap-southeast-1.amazonaws.com/aws-autonomous-driving-dataset/test-vehicle-01/072021"
