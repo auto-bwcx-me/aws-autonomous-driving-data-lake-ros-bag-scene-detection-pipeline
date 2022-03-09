@@ -20,18 +20,12 @@ rm -vf ${HOME}/.aws/credentials
 aws configure set region $(curl -s http://169.254.169.254/latest/meta-data/placement/region)
 ```
 
+
 3.调大磁盘空间
 ```
-# wget http://container.bwcx.me/0-prepare/002-mgmt.files/resize-ebs.sh
-# chmod +x resize-ebs.sh
-# ./resize-ebs.sh 2000
+# sh resize-ebs.sh 1000
 
-# sudo growpart /dev/nvme0n1 1
-# sudo xfs_growfs -d /
-
-wget http://k8s.bwcx.me/1-basic/13-template/131-infra.files/resize-ebs-nvme.sh
-chmod +x resize-ebs-nvme.sh
-./resize-ebs-nvme.sh 1000
+sh resize-ebs-nvme.sh 1000
 ```
 
 
@@ -109,7 +103,7 @@ aws emr create-default-roles
 aws emr create-cluster \
     --release-label emr-6.2.0 \
     --use-default-roles \
-    --instance-groups InstanceGroupType=MASTER,InstanceCount=1,InstanceType=m5.4large \
+    --instance-groups InstanceGroupType=MASTER,InstanceCount=1,InstanceType=m5.4xlarge \
     --auto-terminate
 ```
 
