@@ -12,6 +12,8 @@
 - 绑定 Instance Profile角色（这个必须操作，cdk不能使用aksk的方式）  
 - 清理临时 Token（如果没有清除，cdk将会执行失败，因为STS和AKSK优先于Role执行）  
 ```
+sudo yum install jq -y
+
 rm -vf ${HOME}/.aws/credentials
 ```
 
@@ -75,10 +77,9 @@ cdk --version
 ```
 
 
-如果是第一次运行CDK，先执行参考文档 https://docs.aws.amazon.com/cdk/v2/guide/bootstrapping.html
+如果是第一次运行CDK，可以参考文档 https://docs.aws.amazon.com/cdk/v2/guide/bootstrapping.html，或者执行如下注释了的代码
 ```
-# cdk bootstrap aws://123456789012/us-east-1
-# cdk bootstrap aws://123456789012/ap-southeast-1
+# cdk bootstrap aws://$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document/ |jq -r .accountId)/$(curl -s http://169.254.169.254/latest/meta-data/placement/region)
 
 cdk bootstrap
 ```
