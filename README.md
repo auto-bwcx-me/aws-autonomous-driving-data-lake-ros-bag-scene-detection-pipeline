@@ -8,70 +8,31 @@
 
 # 1.环境配置
 ----------
-
-## 1.1 Cloud9配置
-
-1. Cloud9 权限 
+1.Cloud9 权限 
 - 绑定角色（这个必须操作，cdk不能使用aksk的方式）  
 - 清理临时（如果没有清除，cdk将会执行失败）  
 ```
 rm -vf ${HOME}/.aws/credentials
 ```
 
-2. Set region
+2.Set region
 ```
 aws configure set region $(curl -s http://169.254.169.254/latest/meta-data/placement/region)
 ```
 
-3. 调大磁盘空间
+3.调大磁盘空间
 ```
-wget http://container.bwcx.me/0-prepare/002-mgmt.files/resize-ebs.sh
+# wget http://container.bwcx.me/0-prepare/002-mgmt.files/resize-ebs.sh
+# chmod +x resize-ebs.sh
+# ./resize-ebs.sh 2000
 
-chmod +x resize-ebs.sh
+# sudo growpart /dev/nvme0n1 1
+# sudo xfs_growfs -d /
 
-./resize-ebs.sh 2000
+wget http://k8s.bwcx.me/1-basic/13-template/131-infra.files/resize-ebs-nvme.sh
+chmod +x resize-ebs-nvme.sh
+./resize-ebs-nvme.sh 1000
 ```
-
-查看磁盘信息
-```
-df -hT
-
-lsblk
-```
-
-使扩容生效
-```
-sudo growpart /dev/nvme0n1 1
-
-sudo xfs_growfs -d /
-```
-
-
-## 1.2 EC2配置【可选，如果没有使用Cloud9的话】
-
-1. Lauch EC2 Server
-- 注意要绑定角色
-
-2. SSH 到机器
-
-
-3. Swith to root
-```
-sudo su
-```
-
-4. Install git
-```
-yum install git -y
-```
-
-5. Install nodejs
-```
-curl -sL https://rpm.nodesource.com/setup_16.x | sudo bash -
-
-yum install -y nodejs
-```
-
 
 
 
@@ -93,9 +54,9 @@ cd aws-autonomous-driving-data-lake-ros-bag-scene-detection-pipeline
 
 ~~~shell
 # default setting singapore region (ap-southeast-1)
-sh 00-define-region.sh
-
 # sh 00-define-region.sh us-east-1
+
+sh 00-define-region.sh
 ~~~
 
 
@@ -103,6 +64,8 @@ sh 00-define-region.sh
 ## 2.3 Prepare ENV
 
 ```
+pip install --upgrade pip
+
 python3 -m venv .env
 
 pip3 install -r requirements.txt
@@ -115,13 +78,14 @@ npm install -g aws-cdk --force
 cdk --version
 ```
 
-如果是第一次运行CDK，先执行
-参考文档 https://docs.aws.amazon.com/cdk/v2/guide/bootstrapping.html
+如果是第一次运行CDK，先执行参考文档 https://docs.aws.amazon.com/cdk/v2/guide/bootstrapping.html
 ```
 # cdk bootstrap aws://123456789012/us-east-1
+# cdk bootstrap aws://123456789012/ap-southeast-1
 
 cdk bootstrap
 ```
+
 
 ## 2.5 CDK synth
 ```
@@ -138,15 +102,50 @@ bash deploy.sh deploy true
 
 # 3.注意事项
 ----------
-
 因为权限配置的原因，在开始真实的测试之前，必须手工在EMR控制台启动一个集群，启动后直接关闭即可。
+```
+aws emr create-default-roles
+
+aws emr create-cluster \
+    --release-label emr-6.2.0 \
+    --use-default-roles \
+    --instance-groups InstanceGroupType=MASTER,InstanceCount=1,InstanceType=m5.4large \
+    --auto-terminate
+```
+
+
+
+
+# 4.复制数据
+----------
+
+请确保 CDK 全部部署成功（大概需要15-20分钟），然后再在 Cloud9 上执行这些操作。
+```
+# get s3 bucket name
+s3url="https://auto-bwcx-me.s3.ap-southeast-1.amazonaws.com/aws-autonomous-driving-dataset/test-vehicle-01/072021"
+echo "Download URL is: ${s3url}"
+s3bkt=$(aws s3 ls |grep rosbag-file-ingest |awk '{print $3}')
+echo "S3 bucket is: ${s3bkt}"
+
+
+# create saving directory
+cd ~/environment
+mkdir -p ./auto-data/
+
+
+# download testing files
+wget ${s3url}/2020-11-19-22-21-36_1.bag -O ./auto-data/2020-11-19-22-21-36_1.bag
+
+# upload testing file
+aws s3 cp ./auto-data/2020-11-19-22-21-36_1.bag s3://${s3bkt}/2022-03-09-01.bag
+```
 
 
 
 
 
 
-# 4.Getting Started
+# 5.RosBag files extraction
 
 Initial Configuration
     Define 3 names for your infrastructure in config.json:
