@@ -9,11 +9,10 @@
 
 
 # 1.环境配置
-设置Cloud9
+A.设置Cloud9
 * 设置并绑定 Instance Profile 角色
 * 清理临时 Credentials
-
-```
+```shell
 echo "config region"
 aws configure set region $(curl -s http://169.254.169.254/latest/meta-data/placement/region)
 
@@ -25,11 +24,30 @@ rm -vf ${HOME}/.aws/credentials
 ```
 
 
+B.更新Python3.9
+```shell
+cd ~/environment
+
+echo "get python 3.9 packages"
+wget https://www.python.org/ftp/python/3.9.10/Python-3.9.10.tgz
+tar xzf Python-3.9.10.tgz
+cd Python-3.9.10 
+
+echo "compile and install"
+./configure --enable-optimizations
+sudo make altinstall
+
+echo "config python3.9"
+sudo rm -f /usr/bin/python3
+sudo ln -s /usr/local/bin/python3.9 /usr/bin/python3
+```
+
+
 
 # 2.部署步骤
 
 ## 2.1 准备代码
-```
+```shell
 cd ~/environment
 
 echo "clone code from github"
@@ -40,7 +58,7 @@ cd aws-autonomous-driving-data-lake-ros-bag-scene-detection-pipeline
 
 
 设置Cloud9磁盘空间
-```
+```shell
 # sh resize-ebs.sh 1000
 
 sh resize-ebs-nvme.sh 1000
@@ -52,7 +70,7 @@ sh resize-ebs-nvme.sh 1000
 ## 2.2 设置区域
 
 在开始之前，需要设定 Region，如果没有设定的话，默认使用新加坡区域 （ap-southeast-1）
-```
+```shell
 # sh 00-define-region.sh ap-southeast-1
 
 sh 00-define-region.sh
@@ -61,7 +79,7 @@ sh 00-define-region.sh
 
 
 ## 2.3 准备环境
-```
+```shell
 pip install --upgrade pip
 
 python3 -m venv .env
@@ -71,7 +89,7 @@ pip3 install -r requirements.txt
 
 
 ## 2.4 安装CDK
-```
+```shell
 npm install -g aws-cdk --force
 
 cdk --version
@@ -79,7 +97,7 @@ cdk --version
 
 
 如果是第一次运行CDK，可以参考 [CDK官方文档](https://docs.aws.amazon.com/cdk/v2/guide/bootstrapping.html)，或者执行如下注释了的代码
-```
+```shell
 # cdk bootstrap aws://$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document/ |jq -r .accountId)/$(curl -s http://169.254.169.254/latest/meta-data/placement/region)
 
 cdk bootstrap
@@ -88,36 +106,36 @@ cdk bootstrap
 
 
 ## 2.5 CDK环境合成
-```
+```shell
 bash deploy.sh synth true
 ```
 
 
 
 ## 2.6 CDK部署
-```
+```shell
 bash deploy.sh deploy true
 ```
 
 
 
 
-# 3.注意事项
-因为权限配置的原因，在开始真实的数据测试之前，必须手工在EMR控制台启动一个集群，启动后直接关闭即可。
-```
+# 3.准备数据
+因为权限配置的原因，在开始真实的数据测试之前，需要启动一个EMR集群（默认自动关闭）即可。
+```shell
 aws emr create-default-roles
 
 aws emr create-cluster \
     --release-label emr-6.2.0 \
     --use-default-roles \
-    --instance-groups InstanceGroupType=MASTER,InstanceCount=1,InstanceType=m5.4xlarge \
+    --instance-groups InstanceGroupType=MASTER,InstanceCount=1,InstanceType=m5.xlarge \
     --auto-terminate
 ```
 
 
 
 请确保 CDK 全部部署成功（大概需要5-10分钟），然后再在 Cloud9 上执行这些操作。
-```
+```shell
 # get s3 bucket name
 s3url="https://auto-bwcx-me.s3.ap-southeast-1.amazonaws.com/aws-autonomous-driving-dataset/test-vehicle-01/072021"
 echo "Download URL is: ${s3url}"
@@ -137,6 +155,17 @@ wget ${s3url}/2020-11-19-22-21-36_1.bag -O ${save_dir}/2020-11-19-22-21-36_1.bag
 # upload testing file
 aws s3 cp ${save_dir}/2020-11-19-22-21-36_1.bag s3://${s3bkt}/2022-03-09-01.bag
 ```
+
+
+
+
+
+# 4.环境清理
+先手工清空对应的S3桶里面的数据，然后执行如下命令清除环境
+```shell
+cdk destroy --all
+```
+
 
 
 
