@@ -49,26 +49,26 @@ class EMRClusterDefinition(core.Stack):
         log_bucket = s3.Bucket(
             self,
             "emr_logs",
-            bucket_name=f"emr-logs-{self.account}",
+            bucket_name=f"rosbag-scenes-emr-logs-{self.account}",
             encryption=s3.BucketEncryption.S3_MANAGED,
         )
 
         artifact_bucket = s3.Bucket(
             self,
             "emr_artifacts",
-            bucket_name=f"emr-artifacts-{self.account}",
+            bucket_name=f"rosbag-scenes-emr-artifacts-{self.account}",
             encryption=s3.BucketEncryption.S3_MANAGED,
         )
         self.synchronized_bucket = s3.Bucket(
             self,
             "emr_output",
-            bucket_name=f"synchronized-rosbag-topics-{self.account}",
+            bucket_name=f"rosbag-scenes-synchronized-rosbag-topics-{self.account}",
             encryption=s3.BucketEncryption.S3_MANAGED,
         )
         self.scenes_bucket = s3.Bucket(
             self,
             "emr_output_scenes",
-            bucket_name=f"detected-scenes-{self.account}",
+            bucket_name=f"rosbag-scenes-detected-scenes-{self.account}",
             encryption=s3.BucketEncryption.S3_MANAGED,
         )
 
