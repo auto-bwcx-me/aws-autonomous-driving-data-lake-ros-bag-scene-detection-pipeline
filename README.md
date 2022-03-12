@@ -1,34 +1,38 @@
 
-# 博客
+# 参考架构
+![](./images/architecture.png)
 
-英文： https://aws.amazon.com/cn/blogs/architecture/field-notes-building-an-automated-scene-detection-pipeline-for-autonomous-driving/  
-中文： 准备中。
+
+英文原版 Blog ： [building-an-automated-scene-detection-pipeline-for-autonomous-driving](https://aws.amazon.com/cn/blogs/architecture/field-notes-building-an-automated-scene-detection-pipeline-for-autonomous-driving/)
+
 
 
 
 # 1.环境配置
-----------
-1.设置Cloud9权限 
-- 绑定 Instance Profile角色（这个必须操作，cdk不能使用aksk的方式）  
-- 清理临时 Token（如果没有清除，cdk将会执行失败，因为STS和AKSK优先于Role执行）  
-```
-sudo yum install jq -y
+设置Cloud9
+* 设置并绑定 Instance Profile 角色
+* 清理临时 Credentials
 
+```
+echo "config region"
+aws configure set region $(curl -s http://169.254.169.254/latest/meta-data/placement/region)
+
+echo "install packages"
+sudo yum install jq wget -y
+
+echo "remove temp credentials"
 rm -vf ${HOME}/.aws/credentials
 ```
 
 
-2.设置Cloud9区域
-```
-aws configure set region $(curl -s http://169.254.169.254/latest/meta-data/placement/region)
-```
-
 
 # 2.部署步骤
-----------
 
 ## 2.1 准备代码
 ```
+cd ~/environment
+
+echo "clone code from github"
 git clone https://github.com/auto-bwcx-me/aws-autonomous-driving-data-lake-ros-bag-scene-detection-pipeline.git
 
 cd aws-autonomous-driving-data-lake-ros-bag-scene-detection-pipeline
@@ -46,21 +50,17 @@ sh resize-ebs-nvme.sh 1000
 
 
 ## 2.2 设置区域
-----------
 
 在开始之前，需要设定 Region，如果没有设定的话，默认使用新加坡区域 （ap-southeast-1）
-
-~~~shell
-# default setting singapore region (ap-southeast-1)
-# sh 00-define-region.sh us-east-1
+```
+# sh 00-define-region.sh ap-southeast-1
 
 sh 00-define-region.sh
-~~~
+```
 
 
 
 ## 2.3 准备环境
-
 ```
 pip install --upgrade pip
 
@@ -86,6 +86,7 @@ cdk bootstrap
 ```
 
 
+
 ## 2.5 CDK环境合成
 ```
 bash deploy.sh synth true
@@ -102,8 +103,7 @@ bash deploy.sh deploy true
 
 
 # 3.注意事项
-----------
-因为权限配置的原因，在开始真实的测试之前，必须手工在EMR控制台启动一个集群，启动后直接关闭即可。
+因为权限配置的原因，在开始真实的数据测试之前，必须手工在EMR控制台启动一个集群，启动后直接关闭即可。
 ```
 aws emr create-default-roles
 
@@ -116,14 +116,12 @@ aws emr create-cluster \
 
 
 
-# 4.准备数据
-----------
 请确保 CDK 全部部署成功（大概需要5-10分钟），然后再在 Cloud9 上执行这些操作。
 ```
 # get s3 bucket name
 s3url="https://auto-bwcx-me.s3.ap-southeast-1.amazonaws.com/aws-autonomous-driving-dataset/test-vehicle-01/072021"
 echo "Download URL is: ${s3url}"
-s3bkt=$(aws s3 ls |grep rosbag-file-ingest |awk '{print $3}')
+s3bkt=$(aws s3 ls |grep rosbag-scenes-input |awk '{print $3}')
 echo "S3 bucket is: ${s3bkt}"
 
 
@@ -143,9 +141,8 @@ aws s3 cp ./auto-data/2020-11-19-22-21-36_1.bag s3://${s3bkt}/2022-03-09-01.bag
 
 
 
-
-# 5.RosBag files extraction
-
+# 原 ReadMe.md 文件
+# RosBag files extraction
 Initial Configuration
     Define 3 names for your infrastructure in config.json:
     

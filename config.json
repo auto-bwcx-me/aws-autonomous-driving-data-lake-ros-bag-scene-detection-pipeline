@@ -1,8 +1,8 @@
 {
-  "stack-id": "scene-detection",
+  "stack-id": "rosbag-scenes-detection",
   "fargate": {
-    "image-name": "ros-image",
-    "ecr-repository-name": "ros-topic-extraction",
+    "image-name": "rosbag-scenes-detection",
+    "ecr-repository-name": "rosbag-scenes-detection",
     "glue-db-name": "vsidata",
     "cpu": 4096,
     "memory-limit-mib": 30720,
@@ -13,8 +13,8 @@
         ".bag"
       ]
     },
-    "input-bucket-name": "rosbag-ingest",
-    "output-bucket-name": "rosbag-topics",
+    "input-bucket-name": "rosbag-scenes-input",
+    "output-bucket-name": "rosbag-scenes-output",
     "environment-variables": {
       "s3_source_prefix": "$.key"
     },
@@ -31,7 +31,7 @@
     ]
   },
   "emr": {
-    "CLUSTER_NAME": "scene-detection-emr",
+    "CLUSTER_NAME": "rosbag-scenes-detection-emr",
     "MASTER_INSTANCE_TYPE": "m5.8xlarge",
     "CORE_INSTANCE_TYPE": "r5.8xlarge",
     "CORE_INSTANCE_COUNT": 3,

@@ -5,8 +5,8 @@ build=$2
 
 run_region="ap-southeast-1"
 
-REPO_NAME=ros-topic-extraction # Should match the ecr repository name given in config.json
-IMAGE_NAME=ros-image           # Should match the image name given in config.json
+REPO_NAME=rosbag-scenes-detection  # Should match the ecr repository name given in config.json
+IMAGE_NAME=rosbag-scenes-detection # Should match the image name given in config.json
 
 python3 -m venv .env
 source .env/bin/activate
@@ -26,4 +26,4 @@ else
   echo Skipping build
 fi
 
-cdk $cmd --all --require-approval never
+cdk $cmd --region ${run_region} --all --require-approval never
