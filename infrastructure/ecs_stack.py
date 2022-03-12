@@ -96,14 +96,16 @@ class Fargate(core.Stack):
         src_bucket = aws_s3.Bucket(
             self,
             id=input_bucket_name,
-            bucket_name=f"rosbag-file-ingest-{self.account}",
+            #bucket_name=f"rosbag-file-ingest-{self.account}",
+            bucket_name=f"rosbag-scenes-input-{self.account}",
             removal_policy=core.RemovalPolicy.DESTROY,
         )
 
         dest_bucket = aws_s3.Bucket(
             self,
             id=output_bucket_name,
-            bucket_name=f"rosbag-raw-topics-parquet-{self.account}",
+            #bucket_name=f"rosbag-raw-topics-parquet-{self.account}",
+            bucket_name=f"rosbag-scenes-output-{self.account}",
             removal_policy=core.RemovalPolicy.DESTROY,
         )
         self.output_bucket = dest_bucket
