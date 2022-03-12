@@ -96,6 +96,16 @@ cdk --version
 ```
 
 
+
+创建 ECR 存储库： `rosbag-scenes-detection`，这个存储库名称必须和 config.json 里面一致
+```shell
+cat config.json |jq .
+
+aws ecr create-repository --repository-name rosbag-scenes-detection
+```
+
+
+
 如果是第一次运行CDK，可以参考 [CDK官方文档](https://docs.aws.amazon.com/cdk/v2/guide/bootstrapping.html)，或者执行如下注释了的代码
 ```shell
 # cdk bootstrap aws://$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document/ |jq -r .accountId)/$(curl -s http://169.254.169.254/latest/meta-data/placement/region)
