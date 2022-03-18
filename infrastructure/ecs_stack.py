@@ -259,8 +259,7 @@ class Fargate(core.Stack):
             log_group=aws_logs.LogGroup(
                 self,
                 f"{image_name}-log-group",
-                log_group_name=f"/ecs/{image_name}",
-                removal_policy=core.RemovalPolicy.DESTROY,
+                log_group_name=f"/ecs/{image_name}"
             ),
         )
 
